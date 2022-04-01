@@ -40,7 +40,10 @@ def right_command():
     index, french_word = random_french()
     with open(file="data/to_learn.txt", mode="r") as file:
         indexes = file.readlines()
+    indexes = [int(i) for i in indexes]
+    # print(indexes)
     if index in indexes:
+        # print("already learned")
         right_command()
     else:
         with open(file="data/to_learn.txt", mode="a") as file:
