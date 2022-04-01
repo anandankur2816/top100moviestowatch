@@ -43,12 +43,10 @@ def right_command():
     if index in indexes:
         right_command()
     else:
-        canvas.itemconfig(title, text="Movie", fill="black")
-        canvas.itemconfig(word, text=french_word, fill="black")
-        canvas.itemconfig(canvas_image, image=card_front_img)
         with open(file="data/to_learn.txt", mode="a") as file:
-            file.write(str(index))
+            file.write(str(data.index[data['Movie_name'] == canvas.itemcget(word, "text")].item()))
             file.write("\n")
+        canvas.itemconfig(word, text=french_word, fill="black")
         # flip_timer = window.after(3000, flip_card, index)
 
     # window.after_cancel(after_id)
@@ -58,14 +56,18 @@ def left_command():
     # global flip_timer
     # if flip_timer != 0:
     #     window.after_cancel(flip_timer)
-    canvas.itemconfig(title, text="Movie", fill="black")
     index, french_word = random_french()
-    canvas.itemconfig(word, text=french_word, fill="black")
-    canvas.itemconfig(canvas_image, image=card_front_img)
+    with open(file="data/to_learn.txt", mode="r") as file:
+        indexes = file.readlines()
+    if index in indexes:
+        left_command()
+    else:
+        canvas.itemconfig(word, text=french_word, fill="black")
     # flip_timer = window.after(3000, flip_card, index)
     # window.after_cancel(after_id)
 
 # Creating the UI
+
 
 window = Tk()
 window.title("Flashy")
@@ -77,7 +79,7 @@ card_front_img = PhotoImage(file="images/card_front.png")
 card_back_img = PhotoImage(file="images/card_back.png")
 canvas = Canvas(width=800, height=526)
 canvas_image = canvas.create_image(400, 263, image=card_front_img)
-title = canvas.create_text(400, 150, text="Title", font=("Ariel", 40, "italic"))
+title = canvas.create_text(400, 150, text="Movie", font=("Ariel", 40, "italic"))
 word = canvas.create_text(400, 263, text="Word", font=("Ariel", 20, "bold"))
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 canvas.grid(column=0, row=0, columnspan=2)
@@ -108,7 +110,7 @@ window.mainloop()
 # heading2 = soup.find_all('h1')
 # print(heading2)
 
-cl = "jsx-3523802742 listicle-item"
+# cl = "jsx-3523802742 listicle-item"
 
 # mt =soup.find_all('div', class_=cl)
 # print(mt[1])
